@@ -38,7 +38,6 @@ import asyncio
 import json
 import logging
 import importlib.util
-import os
 import re
 import threading
 import time
@@ -48,6 +47,8 @@ from typing import Any, Awaitable, Callable
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
+
+from src.config.accessor import get_env_value
 from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
@@ -408,7 +409,7 @@ def register_alpha_routes(
         from src.factors.registry import get_default_registry
 
         registry = get_default_registry()
-        configured = bool(os.getenv("TUSHARE_TOKEN"))
+        configured = bool(get_env_value("TUSHARE_TOKEN"))
         installed = importlib.util.find_spec("tushare") is not None
         return {"universes": {
             "csi300": {"ready": configured and installed, "reason": "tushare_ready" if configured and installed else "tushare_token_missing" if not configured else "tushare_dependency_missing"},
