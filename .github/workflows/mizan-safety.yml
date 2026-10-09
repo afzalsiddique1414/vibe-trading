@@ -1,0 +1,33 @@
+name: Mizan paper-safety tests
+
+on:
+  pull_request:
+    paths:
+      - "agent/src/mizan_safety.py"
+      - "agent/src/api/mizan_routes.py"
+      - "agent/api_server.py"
+      - "tests/test_mizan_safety.py"
+      - ".github/workflows/mizan-safety.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "agent/src/mizan_safety.py"
+      - "agent/src/api/mizan_routes.py"
+      - "agent/api_server.py"
+      - "tests/test_mizan_safety.py"
+      - ".github/workflows/mizan-safety.yml"
+
+jobs:
+  mizan-paper-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install minimal test dependencies
+        run: python -m pip install --disable-pip-version-check pytest fastapi
+      - name: Run Mizan paper-safety tests
+        env:
+          PYTHONPATH: agent
+        run: python -m pytest -q tests/test_mizan_safety.py
