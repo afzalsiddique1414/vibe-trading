@@ -47,9 +47,9 @@ from typing import Any, Awaitable, Callable
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, Field, field_validator
 
 from src.config.accessor import get_env_value
-from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
 
