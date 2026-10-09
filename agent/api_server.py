@@ -178,6 +178,9 @@ app.middleware("http")(_apply_security_headers)
 # Route registration + re-exports
 
 # --- Runs ---
+from src.api.mizan_routes import router as mizan_router  # noqa: E402
+app.include_router(mizan_router)
+
 from src.api.runs_routes import register_runs_routes  # noqa: E402
 register_runs_routes(app)
 
